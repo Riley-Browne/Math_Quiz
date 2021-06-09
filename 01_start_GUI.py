@@ -68,15 +68,7 @@ class Start:
                                         font=button_font, bg="#FF9933")
         self.quit_button.grid(row=8, column=0, padx=65, pady=5, sticky="e")
 
-        except ValueError:
-            has_errors = "yes"
-            error_feedback = "Please enter an amount greater than 0 (no text / decimals)"
-
-        if has_errors == "yes":
-            self.start_amount_entry.config(bg=error_back)
-            self.amount_error_label.config(text=error_feedback)
-        else:
-            Game(self, stakes, starting_balance)
+        
 # main routine
 if __name__ == "__main__":
     root = Tk()
