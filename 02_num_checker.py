@@ -6,7 +6,6 @@ import random
 class Start:
     def __init__(self, parent):   
 
-        
 
         # GUI Frame
         self.start_frame = Frame(padx=10, pady=10)
@@ -20,12 +19,10 @@ class Start:
                                 font="Arial 20 bold")
         self.math_quiz_label.grid(row=0)
 
-        # Initial Instructions (row 1)
-        self.math_instructions = Label(self.start_frame, font="Arial 10 italic",
-                                        text ="Please enter a minimum and maximum number "
-                                        "and select what mode you wish to use for the quiz.",
-                                        wrap=275, justify=CENTER, padx=10, pady=10)
-        self.math_instructions.grid(row=1)
+        #Error Label(row 0)
+        self.error_label = Label(self.start_frame, text="",
+                                font="Arial 10 italic", wraplength=250, fg="red")
+        self.error_label.grid(row=1)
 
         # Minimum Box Heading (row 2)
         self.minimum_label = Label(self.start_frame, text="Minimum",
@@ -37,17 +34,21 @@ class Start:
                                    font="Arial 10 bold")
         self.maximum_label.grid(row=2, sticky="e", padx=37.5)
 
+        # Max and Min Entry Box Frame
+        self.test_frame = Frame(self.start_frame)
+        self.test_frame.grid()
+
         # Minimum Entry Text Box (row 3)
-        self.minimum_entry = Entry(self.start_frame, font="Arial 10 italic")   
-        self.minimum_entry.grid(row=3, sticky="w", pady=5)
+        self.minimum_entry = Entry(self.test_frame, font="Arial 10 italic")   
+        self.minimum_entry.grid(row=3, column=0)
 
         # Maximum Entry Text Box (row 3)
-        self.maximum_entry = Entry(self.start_frame, font="Arial 10 italic")   
-        self.maximum_entry.grid(row=3, sticky="e", pady=5)
+        self.maximum_entry = Entry(self.test_frame, font="Arial 10 italic")   
+        self.maximum_entry.grid(row=3, column=1)
 
         # Addition Button (row 4)
-        self.addition_button = Button(self.start_frame, text="Addition",
-                                        font=button_font, bg="#FF9933")
+        self.addition_button = Button(self.start_frame, text="Addition", command=lambda: self.num_checker("+"),
+                               font=button_font, bg="#FF9933")
         self.addition_button.grid(row=4, column=0, padx=65, pady=5, sticky="ew")
         # Subtraction Button (row 5)
         self.subtraction_button = Button(self.start_frame, text="Subtraction",
@@ -70,21 +71,29 @@ class Start:
                                         font=button_font, bg="#FF9933")
         self.quit_button.grid(row=8, column=0, padx=65, pady=5, sticky="e")
 
-    def num_checker (self):
+    # checks entry boxes to see whether values are valid or not
+    def num_checker (self, operation):
         
         error_back = "#ffafaf"
+        error_feedback = "no errors"
+
         try:
-            print("hurb")
-        except ValueError:
+            minimum_value = self.minimum_entry.get()
+            maximum_value = self.maximum_entry.get()
+            minimum_value = int(minimum_value)
+            maximum_value = int(maximum_value)
+
+            # checks to see whether the minimum value is lower than maximum value
+            if minimum_value > maximum_value:
+                self.error_label.config(text="Please enter a minimum number lower than your maximum number") 
+
+            # If number is lower than 0, prints error
+            if minimum_value < 0 or maximum_value < 0:
+                error_feedback = "Please  enter an amount greater than 0 (no text / decimals)"
+
+        except ValueError: 
             has_errors = "yes"
             error_feedback = "Please enter an amount greater than 0 (no text / decimals)"
-
-        if has_errors == "yes":
-            self.start_amount_entry.config(bg=error_back)
-            self.amount_error_label.config(text=error_feedback)
-        else:
-            print="No Error"
-
 
 # main routine
 if __name__ == "__main__":
