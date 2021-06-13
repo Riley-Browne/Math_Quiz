@@ -19,7 +19,7 @@ class Start:
                                 font="Arial 20 bold")
         self.math_quiz_label.grid(row=0)
 
-        #Error Label(row 0)
+        #Error Label(row 1)
         self.error_label = Label(self.start_frame, text="",
                                 font="Arial 10 italic", wraplength=250, fg="red")
         self.error_label.grid(row=1)
@@ -85,15 +85,21 @@ class Start:
 
             # checks to see whether the minimum value is lower than maximum value
             if minimum_value > maximum_value:
-                self.error_label.config(text="Please enter a minimum number lower than your maximum number") 
-
+                self.error_label.config(text="Please enter a minimum number lower than your maximum number")   
+    
             # If number is lower than 0, prints error
             if minimum_value < 0 or maximum_value < 0:
-                error_feedback = "Please  enter an amount greater than 0 (no text / decimals)"
+                self.error_label.config(text="Please enter an amount greater than 0 (no text / decimals)")    
+
+            # If no errors found, make error_label empty to make previous error message dissaper
+            if minimum_value < maximum_value:
+                 self.error_label.config(text="")
+                
 
         except ValueError: 
             has_errors = "yes"
-            error_feedback = "Please enter an amount greater than 0 (no text / decimals)"
+            self.error_label.config(text="Please enter an amount greater than 0 (no text / decimals)")
+            
 
 # main routine
 if __name__ == "__main__":
