@@ -7,23 +7,19 @@ import random
 class Converter:
     def __init__(self):
 
-        # Formatting variables...
-        background_color = "light blue"
-
-        # Converter main screen GUI..
-        self.converter_frame = Frame(width=300, height=300, bg=background_color,
+        # Quiz main screen GUI..
+        self.start_frame = Frame(width=300, height=300,
                                      pady=10)
-        self.converter_frame.grid()
+        self.start_frame.grid()
 
         # Temperature conversion heading (row 0)
-        self.temp_converter_label = Label(self.converter_frame, text="Temperature Converter",
-                                          bg=background_color,
+        self.math_quiz_label = Label(self.start_frame, text="Temperature Converter",
                                           font=("Arial", "16", "bold"),
                                           padx=10, pady=10)
-        self.temp_converter_label.grid(row=0)
+        self.math_quiz_label.grid(row=0)
 
         # Help button (row 1)
-        self.help_button = Button(self.converter_frame, text="help",
+        self.help_button = Button(self.start_frame, text="help",
                                   font=("Arial", "14"),
                                   padx=10, pady=10,
                                   command=self.help)
@@ -33,19 +29,17 @@ class Converter:
         print("You asked for help")
         get_help = Help(self)
         get_help.help_text.configure(text="To enter in your desired numbers, pick your minimum and maximum numbers"
-                                          "(no decimals or words) and select one of the 4 quiz modes.)", bg="orange")
+                                          "(no decimals or words) and select one of the 4 quiz modes.)")
 
 
 class Help:
     def __init__(self, partner):
 
-        background = "orange"
-
         # disabled help button
         partner.help_button.config(state=DISABLED)
 
         # Sets up child window (help box)
-        self.help_box = Toplevel(bg=background)
+        self.help_box = Toplevel()
 
         # if users press cross at top, closes help and 'releases' help button
         self.help_box.protocol('WM_DELETE_WINDOW', partial(self.close_help, partner))
@@ -55,7 +49,7 @@ class Help:
         self.help_frame.grid()
 
         # Setup Help heading (row 0)
-        self.how_heading = Label(self.help_box, text="How to use the quiz", bg=background,
+        self.how_heading = Label(self.help_box, text="How to use the quiz",
                                  font="arial 10 bold")
         self.how_heading.grid(row=0)
 
@@ -66,7 +60,7 @@ class Help:
 
         # Dismiss button (row 2)
         self.dismiss_btn = Button(self.help_box, text="Dismiss", width=10,
-                                  font="arial 10 bold",
+                                  font="arial 10 bold", 
                                   command=partial(self.close_help, partner))
         self.dismiss_btn.grid(row=2, pady=10)
 
