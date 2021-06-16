@@ -68,7 +68,7 @@ class Start:
         self.help_button.grid(row=8, column=0, padx=65, pady=5, sticky="w")
         # Quit Button (row 8)
         self.quit_button = Button(self.start_frame, text="Quit",
-                                        font=button_font, bg="#FF9933")
+                                        font=button_font, bg="#FF9933", command=partial(self.close_start))
         self.quit_button.grid(row=8, column=0, padx=65, pady=5, sticky="e")
 
     # checks entry boxes to see whether values are valid or not
@@ -99,7 +99,11 @@ class Start:
         except ValueError: 
             has_errors = "yes"
             self.error_label.config(text="Please enter an amount greater than 0 (no text / decimals)")
-            
+    
+    # Allows the quit button to shut down the GUI
+    def close_start(self):
+        quit()
+
 
 # main routine
 if __name__ == "__main__":
