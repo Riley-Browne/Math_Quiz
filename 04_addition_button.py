@@ -6,7 +6,9 @@ import random
 
 class Start:
         
-    def Addition(self):
+    def Addition():
+
+        add_formula = "{} + {} = {}"
         
 
         
