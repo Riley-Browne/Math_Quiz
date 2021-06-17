@@ -95,7 +95,6 @@ class Start:
             if minimum_value < maximum_value:
                  self.error_label.config(text="")
                 
-
         except ValueError: 
             has_errors = "yes"
             self.error_label.config(text="Please enter an amount greater than 0 (no text / decimals)")
