@@ -4,7 +4,7 @@ from functools import partial  # To prevent unwanted windows
 import random
 
 
-class Converter:
+class Start:
     def __init__(self):
 
         # Quiz main screen GUI..
@@ -13,7 +13,7 @@ class Converter:
         self.start_frame.grid()
 
         # Temperature conversion heading (row 0)
-        self.math_quiz_label = Label(self.start_frame, text="Temperature Converter",
+        self.math_quiz_label = Label(self.start_frame, text="Math Quiz",
                                           font=("Arial", "16", "bold"),
                                           padx=10, pady=10)
         self.math_quiz_label.grid(row=0)
@@ -73,7 +73,7 @@ class Help:
 # main routine
 if __name__ == "__main__":
     root = Tk()
-    root.title("Temperature Converter")
-    something = Converter()
+    root.title("Math Quiz")
+    something = Start()
     root.mainloop()
 
