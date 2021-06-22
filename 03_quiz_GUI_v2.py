@@ -7,7 +7,7 @@ class Quiz:
 
     def __init__(self):
 
-        operation = "+"
+        operation = "+", "-", "*", "/"
         num_questions = 5
 
         self.Correct_Ans = IntVar()
@@ -64,12 +64,21 @@ class Quiz:
 
         if operation == "+":
             num_3 = num_2 + num_1
+     
+        if operation == "-":
+            num_3 = num_2 - num_1
+
+        if operation == "/":
+            num_3 = num_2 + num_1
+        
+        if operation == "*":
+            num_3 = num_2 + num_1
 
         question = "{} {} {}".format(num_2, operation, num_1)
         self.question_label.config(text=question)
         question_answer = eval(question)
         self.Correct_Ans.set(question_answer)
-        
+
     def check_question(self):
         print("you asked to check the questions")
         user_answer = int(self.answer_entry.get())
