@@ -69,19 +69,14 @@ class Quiz:
         self.question_label.config(text=question)
         question_answer = eval(question)
         self.Correct_Ans.set(question_answer)
-
         
-
-        if question_answer == user_answer:
-            print("high")
-
     def check_question(self):
         print("you asked to check the questions")
-        user_answer = self.answer_entry.get
+        user_answer = int(self.answer_entry.get())
         actual_answer = self.Correct_Ans.get()
 
-        print(user_answer)
-        print(self.Correct_Ans)
+        print("user answer print", user_answer)
+        print("correct answer", actual_answer)
 
         if user_answer == actual_answer:
             print("yay")
