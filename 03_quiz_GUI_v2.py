@@ -24,10 +24,9 @@ class Quiz:
         self.question_label = Label(self.quiz_frame, text="", font="Arial 15 italic", wraplength=250)
         self.question_label.grid(row=2)
 
-
         # Answer Box for user to enter answer (row 3)
         self.answer_entry = Entry(self.quiz_frame, font="Arial 10")   
-        self.answer_entry.grid(row=3, column=0) 
+        self.answer_entry.grid(row=3, column=0)
 
         # Answer Entry Box Frame
         self.button_frame = Frame(self.quiz_frame)
@@ -65,20 +64,21 @@ class Quiz:
         if operation == "+":
             num_3 = num_2 + num_1
      
-        if operation == "-":
+        elif operation == "-":
             num_3 = num_2 - num_1
 
-        if operation == "/":
-            num_3 = num_2 + num_1
+        elif operation == "/":
+            num_3 = num_2 / num_1
         
         if operation == "*":
-            num_3 = num_2 + num_1
+            num_3 = num_2 * num_1
 
         question = "{} {} {}".format(num_2, operation, num_1)
         self.question_label.config(text=question)
         question_answer = eval(question)
         self.Correct_Ans.set(question_answer)
 
+    # allows user to check whether their answer was correct
     def check_question(self):
         print("you asked to check the questions")
         user_answer = int(self.answer_entry.get())
@@ -87,26 +87,20 @@ class Quiz:
         print("user answer print", user_answer)
         print("correct answer", actual_answer)
 
+        # If user enters in the correct answer, print response and 
+        # disable the text box to prevent changes to the answer
         if user_answer == actual_answer:
             print("yay")
+            self.answer_entry.config(state=DISABLED)
         else:
             print("oops")
-
+        
+   
 
     # Allows the quit button to shut down the GUI
     def close_quiz(self):
         quit()
-
-   
-
-
-
-
-        
-
-    
-        
-
+  
 # main routine
 if __name__ == "__main__":
     root = Tk()
