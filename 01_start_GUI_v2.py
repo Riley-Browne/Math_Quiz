@@ -88,12 +88,13 @@ class Start:
                 self.error_label.config(text="Please enter a minimum number lower than your maximum number")   
     
             # If number is lower than 0, prints error
-            if minimum_value < 0 or maximum_value < 0:
+            elif minimum_value < 0 or maximum_value < 0:
                 self.error_label.config(text="Please enter an amount greater than 0 (no text / decimals)")    
 
             # If no errors found, make error_label empty to make previous error message dissaper
             if minimum_value < maximum_value:
                  self.error_label.config(text="")
+                 
                 
         except ValueError: 
             has_errors = "yes"
