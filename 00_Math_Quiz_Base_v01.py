@@ -100,11 +100,14 @@ class Start:
             self.error_label.config(text="Please enter an amount greater than 0 (no text / decimals)")
     
     def to_quiz (self, operation):
+       
+        # Get minimum and maximum amount
         minimum_amount = minimum_entry.get()
         maximum_amount = maximum_entry.get()
 
+        operation_type = 
 
-
+  
 
     # Allows the quit button to shut down the GUI
     def close_start(self):
