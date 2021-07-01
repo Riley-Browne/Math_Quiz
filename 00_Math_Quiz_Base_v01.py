@@ -205,7 +205,16 @@ class Quiz:
     # allows user to check whether their answer was correct
     def check_question(self):
         print("you asked to check the questions")
-        user_answer = int(self.answer_entry.get())
+
+        user_answer = self.answer_entry.get()
+        
+        try:
+            user_answer = int(user_answer)
+        
+        except ValueError:
+            self.answer_label.config(text="Please enter in the answer (no text)", fg="red")
+    
+
         actual_answer = self.Correct_Ans.get()
         self.next_button.config(state=NORMAL)
         self.check_button.config(state=DISABLED)
