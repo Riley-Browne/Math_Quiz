@@ -112,12 +112,12 @@ class Start:
 class Quiz:
 
     def __init__(self, operation, min_val, max_val):
-
+        
         self.operator = StringVar()
         self.operator.set(operation)
 
         # operation = "+", "-", "*", "/"
-        num_questions = 5
+        num_questions = 10
 
         self.Correct_Ans = IntVar()
 
@@ -160,6 +160,10 @@ class Quiz:
                                         command=partial(self.close_quiz))
         self.quit_button.grid(row=1, columnspan=2, padx=30, pady=5)
 
+        # Label for generated question (row 5)
+        self.answer_label = Label(self.quiz_frame, text="", font="Arial 10", wraplength=250, )
+        self.answer_label.grid(row=5)
+
 
 
     def question_generator(self, operation):
@@ -171,6 +175,9 @@ class Quiz:
         self.next_button.config(state=DISABLED)
         self.check_button.config(state=NORMAL)
         self.answer_entry.config(state=NORMAL)
+        self.answer_label.config(text="")
+        self.answer_entry.delete(0, 'end')
+
 
         num_2 = random.randint(minimum_amount, maximum_amount)
 
@@ -210,11 +217,12 @@ class Quiz:
         # If user enters in the correct answer, print response and 
         # disable the text box to prevent changes to the answer
         if user_answer == actual_answer:
-            print("yay")
+            self.answer_label.config(text="Congratulations, you got {}".format(user_answer), fg="green")
             self.answer_entry.config(state=DISABLED)
         else:
-            print("oops")
-        
+             self.answer_label.config(text="Unfortunately, you got {} and not {}".format(user_answer, actual_answer), fg="red")
+             self.answer_entry.config(state=DISABLED)
+
    
     # Allows the quit button to shut down the GUI
     def close_quiz(self):
