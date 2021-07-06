@@ -77,15 +77,6 @@ class Quiz:
     def close_quiz(self):
         quit()
 
-   
-
-
-
-
-        
-
-    
-        
 
 # main routine
 if __name__ == "__main__":
