@@ -93,17 +93,28 @@ class Start:
 
             # If no errors found, make error_label empty to make previous error message dissaper
             if minimum_value < maximum_value:
-                 self.error_label.config(text="")
-                 self.to_quiz(operation, minimum_value, maximum_value)
-                 
+                self.error_label.config(text="")
+
+
+                print("min pre to quiz", minimum_value)
+                print("max pre to quiz", maximum_value)
+
+                self.to_quiz(operation, minimum_value, maximum_value)
+
         except ValueError: 
             has_errors = "yes"
             self.error_label.config(text="Please enter an amount greater than 0 (no text / decimals)")
     
-    def to_quiz (self, operation, min_val, max_val):
+    def to_quiz (self, operation, minimum_value , maximum_value):
        
+        # minimum_value = min_val 
+        # maximum_value = max_val
+
+        print("minimum value", minimum_value)
+        print("maximum value", maximum_value)
+
         # Get minimum and maximum amount
-        Quiz(operation, min_val, max_val)
+        Quiz(operation, minimum_value, maximum_value)
 
     # Allows the quit button to shut down the GUI
     def close_start(self):
@@ -111,7 +122,7 @@ class Start:
 
 class Quiz:
 
-    def __init__(self, operation, min_val, max_val):
+    def __init__(self, operation, minimum_entry, maximum_entry):
         
         self.operator = StringVar()
         self.operator.set(operation)
@@ -120,6 +131,12 @@ class Quiz:
         num_questions = 10
 
         self.Correct_Ans = IntVar()
+
+        self.minimum = IntVar()
+        self.minimum.set(minimum_entry)
+
+        self.maximum = IntVar()
+        self.maximum.set(maximum_entry)
 
         self.quiz_box = Toplevel()
 
@@ -165,12 +182,11 @@ class Quiz:
         self.answer_label.grid(row=5)
 
 
-
     def question_generator(self, operation):
         
         # Get minimum and Maximum numbers from user (will be set variables until components have been combined)
-        minimum_amount = 1
-        maximum_amount = 10
+        minimum_amount = self.minimum.get()
+        maximum_amount = maximum_entry
         
         self.next_button.config(state=DISABLED)
         self.check_button.config(state=NORMAL)
