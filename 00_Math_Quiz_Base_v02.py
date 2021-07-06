@@ -194,7 +194,6 @@ class Quiz:
         self.answer_label.config(text="")
         self.answer_entry.delete(0, 'end')
 
-
         num_2 = random.randint(minimum_amount, maximum_amount)
 
         num_1 = random.randint(minimum_amount, maximum_amount)
