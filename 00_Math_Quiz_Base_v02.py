@@ -128,6 +128,8 @@ class Quiz:
         self.operator.set(operation)
 
         # operation = "+", "-", "*", "/"
+        
+        #  Number of quesitons in the quiz
         num_questions = 10
 
         self.Correct_Ans = IntVar()
@@ -186,7 +188,7 @@ class Quiz:
         
         # Get minimum and Maximum numbers from user (will be set variables until components have been combined)
         minimum_amount = self.minimum.get()
-        maximum_amount = maximum_entry
+        maximum_amount = self.maximum.get()
         
         self.next_button.config(state=DISABLED)
         self.check_button.config(state=NORMAL)
