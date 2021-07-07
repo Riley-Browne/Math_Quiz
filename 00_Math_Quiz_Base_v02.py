@@ -89,7 +89,11 @@ class Start:
     
             # If number is lower than 0, prints error
             elif minimum_value < 0 or maximum_value < 0:
-                self.error_label.config(text="Please enter an amount greater than 0 (no text / decimals)")    
+                self.error_label.config(text="Please enter an amount greater than 0 (no text / decimals)")
+
+             # If numbers are equal to each other, print error
+            elif minimum_value == maximum_value:
+                self.error_label.config(text="Please make a minimum and a maximum number that are not equal")   
 
             # If no errors found, make error_label empty to make previous error message dissaper
             if minimum_value < maximum_value:
@@ -117,6 +121,7 @@ class Start:
         Quiz(operation, minimum_value, maximum_value)
 
     # Allows the quit button to shut down the GUI
+
     def close_start(self):
         quit()
 
@@ -131,6 +136,9 @@ class Quiz:
         
         #  Number of quesitons in the quiz
         num_questions = 10
+
+        # Starting questions 
+        self.asked_questions = 1
 
         self.Correct_Ans = IntVar()
 
@@ -226,6 +234,11 @@ class Quiz:
         user_answer = self.answer_entry.get()
         
         try:
+
+            how_many = self.asked_questions.get()
+            how_many += 1
+            self.asked_questions.set(how_many)
+
             user_answer = int(user_answer)
             actual_answer = self.Correct_Ans.get()
             self.next_button.config(state=NORMAL)
@@ -240,20 +253,24 @@ class Quiz:
             if user_answer == actual_answer:
                 self.answer_label.config(text="Congratulations, you got {}".format(user_answer), fg="green")
                 self.answer_entry.config(state=DISABLED)
+ 
             else:
                 self.answer_label.config(text="Unfortunately, you got {} and not {}".format(user_answer, actual_answer), fg="red")
                 self.answer_entry.config(state=DISABLED)
+
         
         except ValueError:
             self.answer_label.config(text="Please enter in the answer (no text)", fg="red")
     
+    def maxed_questions(self):
+        self.asked_questions.get()
+        if self.asked_questions == 11:
+            print("It is working")
 
-
-
-   
     # Allows the quit button to shut down the GUI
     def close_quiz(self):
         quit()
+
 
 
 # main routine
