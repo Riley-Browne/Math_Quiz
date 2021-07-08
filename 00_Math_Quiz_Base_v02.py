@@ -138,7 +138,8 @@ class Quiz:
         num_questions = 10
 
         # Starting questions 
-        self.asked_questions = 1
+        self.asked_questions = IntVar()
+        self.asked_questions.set(1)
 
         self.Correct_Ans = IntVar()
 
@@ -194,38 +195,50 @@ class Quiz:
 
     def question_generator(self, operation):
         
-        # Get minimum and Maximum numbers from user (will be set variables until components have been combined)
-        minimum_amount = self.minimum.get()
-        maximum_amount = self.maximum.get()
+        how_many = self.asked_questions.get()
+        how_many += 1
+        self.asked_questions.get()
+        if how_many == 11:
+            print("It is working, quiz over")
+            self.next_button.config(state=DISABLED)
+            
+
+            # configure stuff etc, think mystery box when you ran out of money
+
+        else:
         
-        self.next_button.config(state=DISABLED)
-        self.check_button.config(state=NORMAL)
-        self.answer_entry.config(state=NORMAL)
-        self.answer_label.config(text="")
-        self.answer_entry.delete(0, 'end')
+            # Get minimum and Maximum numbers from user (will be set variables until components have been combined)
+            minimum_amount = self.minimum.get()
+            maximum_amount = self.maximum.get()
+            
+            self.next_button.config(state=DISABLED)
+            self.check_button.config(state=NORMAL)
+            self.answer_entry.config(state=NORMAL)
+            self.answer_label.config(text="")
+            self.answer_entry.delete(0, 'end')
 
-        num_2 = random.randint(minimum_amount, maximum_amount)
+            num_2 = random.randint(minimum_amount, maximum_amount)
 
-        num_1 = random.randint(minimum_amount, maximum_amount)
+            num_1 = random.randint(minimum_amount, maximum_amount)
 
-        operation = self.operator.get()
+            operation = self.operator.get()
 
-        if operation == "+":
-            num_3 = num_2 + num_1
-     
-        elif operation == "-":
-            num_3 = num_2 - num_1
-
-        elif operation == "/":
-            num_3 = num_2 / num_1
+            if operation == "+":
+                num_3 = num_2 + num_1
         
-        if operation == "*":
-            num_3 = num_2 * num_1
+            elif operation == "-":
+                num_3 = num_2 - num_1
 
-        question = "{} {} {}".format(num_2, operation, num_1)
-        self.question_label.config(text=question)
-        question_answer = eval(question)
-        self.Correct_Ans.set(question_answer)
+            elif operation == "/":
+                num_3 = num_2 / num_1
+            
+            if operation == "*":
+                num_3 = num_2 * num_1
+
+            question = "{} {} {}".format(num_2, operation, num_1)
+            self.question_label.config(text=question)
+            question_answer = eval(question)
+            self.Correct_Ans.set(question_answer)
 
     # allows user to check whether their answer was correct
     def check_question(self):
@@ -245,8 +258,7 @@ class Quiz:
             self.check_button.config(state=DISABLED)
             self.answer_entry.config(state=DISABLED)
 
-            print("user answer print", user_answer)
-            print("correct answer", actual_answer)
+            print("quesitons asked, how many", how_many)
 
             # If user enters in the correct answer, print response and 
             # disable the text box to prevent changes to the answer
@@ -262,10 +274,10 @@ class Quiz:
         except ValueError:
             self.answer_label.config(text="Please enter in the answer (no text)", fg="red")
     
-    def maxed_questions(self):
-        self.asked_questions.get()
-        if self.asked_questions == 11:
-            print("It is working")
+    # def maxed_questions(self):
+    #     self.asked_questions.get()
+    #     if self.asked_questions == 11:
+    #         print("It is working")
 
     # Allows the quit button to shut down the GUI
     def close_quiz(self):
