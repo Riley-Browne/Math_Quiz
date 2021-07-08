@@ -52,15 +52,15 @@ class Start:
         self.addition_button.grid(row=4, column=0, padx=65, pady=5, sticky="ew")
         # Subtraction Button (row 5)
         self.subtraction_button = Button(self.start_frame, text="Subtraction",
-                                        font=button_font, bg="#FF9933", command=lambda: self.to_quiz(2))
+                                        font=button_font, bg="#FF9933", command=lambda: self.num_checker("-"))
         self.subtraction_button.grid(row=5, column=0, padx=65, pady=5, sticky="ew")
         # Multiplication (row 6)
         self.multiplication_button = Button(self.start_frame, text="Multiplication",
-                                        font=button_font, bg="#FF9933",command=lambda: self.to_quiz(3))
+                                        font=button_font, bg="#FF9933",command=lambda: self.num_checker("*"))
         self.multiplication_button.grid(row=6, column=0, padx=65, pady=5, sticky="ew")
         # Division (row 7)
         self.division_button = Button(self.start_frame, text="Division",
-                                        font=button_font, bg="#FF9933", command=lambda: self.to_quiz(4))
+                                        font=button_font, bg="#FF9933", command=lambda: self.num_checker("/"))
         self.division_button.grid(row=7, column=0, padx=65, pady=5, sticky="ew")
         # Help Button (row 8)
         self.help_button = Button(self.start_frame, text="Help",
@@ -98,11 +98,6 @@ class Start:
             # If no errors found, make error_label empty to make previous error message dissaper
             if minimum_value < maximum_value:
                 self.error_label.config(text="")
-
-
-                print("min pre to quiz", minimum_value)
-                print("max pre to quiz", maximum_value)
-
                 self.to_quiz(operation, minimum_value, maximum_value)
 
         except ValueError: 
@@ -121,7 +116,6 @@ class Start:
         Quiz(operation, minimum_value, maximum_value)
 
     # Allows the quit button to shut down the GUI
-
     def close_start(self):
         quit()
 
@@ -240,6 +234,9 @@ class Quiz:
             question_answer = eval(question)
             self.Correct_Ans.set(question_answer)
 
+            answered_question = self.answer_entry.get()
+            user_list = "{} {} {} = {}".format(num_2, operation, num_1, answered_question)
+            
     # allows user to check whether their answer was correct
     def check_question(self):
         print("you asked to check the questions")
@@ -270,14 +267,8 @@ class Quiz:
                 self.answer_label.config(text="Unfortunately, you got {} and not {}".format(user_answer, actual_answer), fg="red")
                 self.answer_entry.config(state=DISABLED)
 
-        
         except ValueError:
             self.answer_label.config(text="Please enter in the answer (no text)", fg="red")
-    
-    # def maxed_questions(self):
-    #     self.asked_questions.get()
-    #     if self.asked_questions == 11:
-    #         print("It is working")
 
     # Allows the quit button to shut down the GUI
     def close_quiz(self):
