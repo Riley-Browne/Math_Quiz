@@ -3,55 +3,86 @@ from functools import partial  # To prevent unwanted windows
 import random
 
 class Export:
-    def __init__(self, partner, game_history, all_game_stats):
-
-        # Disable export button
-        partner.export_button.config(state=DISABLED)
-
-        # Sets up child window (ie: export box)
-        self.export_box = Toplevel()
-
-        # If users press cross at top, closes export and 'releases' export button
-        self.export_box.protocol('WM_DELETE_WINDOW', partial(self.close_export, partner))
-
-        # Set up GUI Frame
-        self.export_frame = Frame(self.export_box, width=300)
+    def __init__(self):
+        
+        # GUI Frame
+        self.export_frame = Frame(padx=10, pady=10)
         self.export_frame.grid()
 
-        # Set up Export heading (row 0)
-        self.how_heading = Label(self.export_frame, text="Export / Instructions",
-                                 font='arial 14 bold', pady=10)
-        self.how_heading.grid(row=0)
+         # Label 
+        self.entry_label = Label(self.export_frame, text="File Name:",
+                                font="Arial 10 bold")
+        self.entry_label.grid(row=0)
 
-        # Export Instructions (label, row 1)
-        self.export_text = Label(self.export_frame, text="Enter a filename in the "
-                                                         "box below and press the Save button to save your calculation "
-                                                         "history to a text file.", justify=LEFT, width=40, wrap=250)
-        self.export_text.grid(row=2, pady=10)
+        # Entry Text Box for user to enter file name
+        self.file_entry = Entry(self.export_frame, font="Arial 10 italic")   
+        self.file_entry.grid(row=1, column=0, pady=10)
 
-        # Error label
-        self.save_error_label = Label(self.export_frame, font="arial 12 bold", text="", fg='red', justify=LEFT,
-                                      wrap=250)
-        self.save_error_label.grid(row=3)
+        # Cancel Button
+        self.cancel_button = Button(self.export_frame, text="Cancel", command=self.close_export,
+                            font="Arial 10 bold", bg="#FF9933")
+        self.cancel_button.grid(row=2, column=0, padx=65, pady=10, sticky="ew")
 
-        # Filename Entry Box (row 3)
-        self.filename_entry = Entry(self.export_frame, width=20, font="arial 14 bold",
-                                    justify=CENTER)
-        self.filename_entry.grid(row=4, pady=10)
+        # Save Button
+        self.save_button_button = Button(self.export_frame, text="Save",
+                             font="Arial 10 bold", bg="#FF9933", ccommand=partial(lambda: self.save_history(partner, user_answer)))
+        self.save_button_button.grid(row=3, column=0, padx=65, pady=10, sticky="ew")
 
-        # Save / Cancel Frame (row 5)
-        self.save_cancel_frame = Frame(self.export_frame)
-        self.save_cancel_frame.grid(row=5, pady=10)
+    def save_history(self, partner):
 
-        # Save and Cancel buttons (row 0 of save_cancel_frame)
-        self.save_button = Button(self.save_cancel_frame, text="Save", font="Arial 15 bold",
-                                  bg="#003366", fg="white",
-                                  command=partial(lambda: self.save_history(partner, game_history, all_game_stats)))
-        self.save_button.grid(row=0, column=0)
+        # Regular expression to check filename is valid.
+        valid_char = "[A-Za-z0-9_]"
+        has_errors = "no"
 
-    def close_export(self, partner):
-        partner.export_button.config(state=NORMAL)
-        self.export_box.destroy()
+        filename = self.filename_entry.get()
+        print(filename)
+
+        for letter in filename:
+            if re.match(valid_char, letter):
+                continue
+            elif letter == " ":
+                problem = "(No spaces allowed)"
+            else:
+                problem = ("(No {}'s allowed".format(letter))
+            has_errors = "yes"
+            break
+
+        if filename == "":
+            problem = "Can't be blank"
+            has_errors = 'yes'
+
+        if has_errors == "yes":
+            # Display error message
+            self.save_error_label.config(text="Invalid filename - {}".format(problem))
+            # Change entry box background to pink
+            self.filename_entry.config(bg="#ffafaf")
+            print()
+        else:
+            # If there are no errors, generate text file and then close dialogue
+            # add .txt suffix!
+            filename = filename + ".txt"
+
+            # Create file to hold data
+            f = open(filename, "w+")
+
+            # Heading for stats
+            f.write("Game Statistics\n\n")
+
+            # Game stats
+            for round in game_stats:
+                f.write(str(round) + "\n")
+
+            # Heading for rounds
+            f.write("\nRound Details\n\n")
+
+            # Add new line at the end of each item
+            for item in game_history:
+                f.write(item + "\n")
+            # Closes save window when save is successful
+            self.close_export(partner)
+
+    def close_export(self):
+        Export.destory()
 
 # main routine
 if __name__ == "__main__":
