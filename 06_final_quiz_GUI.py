@@ -14,9 +14,17 @@ class finish_quiz:
                                     font="Arial 10 bold")
         self.math_quiz_label.grid(row=0)
 
-        self.save_button_button = Button(self.export_frame, text="Save",
+        self.save_button = Button(self.finish_frame, text="Save",
                              font="Arial 10 bold", bg="#FF9933")
-        self.save_button_button.grid(row=3, column=0, padx=65, pady=10, 
+        self.save_button.grid(row=3, column=0, padx=65, pady=10)
+
+        self.quit_button = Button(self.finish_frame, text="Quit",
+                             font="Arial 10 bold", bg="#FF9933", command=partial(self.close_finished))
+        self.quit_button.grid(row=4, column=0, padx=65, pady=10)
+    
+    # Allows the quit button to shut down the GUI
+    def close_finished(self):
+        quit()
        
 # main routine
 if __name__ == "__main__":
