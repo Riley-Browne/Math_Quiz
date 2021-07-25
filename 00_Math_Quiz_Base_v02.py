@@ -143,6 +143,10 @@ class Quiz:
         self.maximum = IntVar()
         self.maximum.set(maximum_entry)
 
+        self.question_asked = StringVar()
+
+        self.question_history_list = []
+
         self.quiz_box = Toplevel()
 
         # GUI Frame
@@ -160,6 +164,8 @@ class Quiz:
         # Answer Box for user to enter answer (row 3)
         self.answer_entry = Entry(self.quiz_frame, font="Arial 10")   
         self.answer_entry.grid(row=3, column=0)
+
+        self.question_results = self.answer_entry.get()
 
         # Answer Entry Box Frame
         self.button_frame = Frame(self.quiz_frame)
@@ -186,7 +192,6 @@ class Quiz:
         self.answer_label = Label(self.quiz_frame, text="", font="Arial 10", wraplength=250, )
         self.answer_label.grid(row=5)
 
-
     def question_generator(self, operation):
         
         how_many = self.asked_questions.get()
@@ -195,6 +200,7 @@ class Quiz:
         if how_many == 11:
             print("It is working, quiz over")
             self.next_button.config(state=DISABLED)
+            finish_quiz(self.question_results)
             
 
             # configure stuff etc, think mystery box when you ran out of money
@@ -230,6 +236,9 @@ class Quiz:
                 num_3 = num_2 * num_1
 
             question = "{} {} {}".format(num_2, operation, num_1)
+            # self.question_generator.set(question)
+
+
             self.question_label.config(text=question)
             question_answer = eval(question)
             self.Correct_Ans.set(question_answer)
@@ -262,10 +271,26 @@ class Quiz:
             if user_answer == actual_answer:
                 self.answer_label.config(text="Congratulations, you got {}".format(user_answer), fg="green")
                 self.answer_entry.config(state=DISABLED)
+
+                result = "correct"
+
+                num_right = self.Correct_Ans.get()
+                num_right += 1
+                self.Correct_Ans.set(num_right)
  
             else:
                 self.answer_label.config(text="Unfortunately, you got {} and not {}".format(user_answer, actual_answer), fg="red")
                 self.answer_entry.config(state=DISABLED)
+
+                result = "incorrect"
+
+            # add question and answer to list...
+            question_for_history = self.question_generator.get()
+
+            question_answer = "{} , {}, {}".format(question_for_history, user_answer, result)
+
+            self.question_history_list.append(question_for_history)
+            print(self.question_history_list)
 
         except ValueError:
             self.answer_label.config(text="Please enter in the answer (no text)", fg="red")
@@ -274,7 +299,34 @@ class Quiz:
     def close_quiz(self):
         quit()
 
+class finish_quiz():
+    def __init__(self, question_results):
 
+
+        self.finish_box = Toplevel()
+        # GUI Frame
+        self.finish_frame = Frame(self.finish_box, padx=10, pady=10)
+        self.finish_frame.grid()
+    
+        # Label for user to see how many they got right and wrong
+        self.math_quiz_label = Label(self.finish_frame, text="Congratulations for completing the quiz!", font="Arial 10 bold")
+        self.math_quiz_label.grid(row=0)
+
+        self.sub_quiz_label = Label(self.finish_frame, text="You can now export your results or quit",
+                                    font="Arial 8 italic")
+        self.sub_quiz_label.grid(row=1)
+
+        self.save_button = Button(self.finish_frame, text="Save",
+                             font="Arial 10 bold", bg="#FF9933")
+        self.save_button.grid(row=2, column=0, padx=65, pady=10)
+
+        self.quit_button = Button(self.finish_frame, text="Quit",
+                             font="Arial 10 bold", bg="#FF9933", command=partial(self.close_finished))
+        self.quit_button.grid(row=3, column=0, padx=65, pady=10)
+    
+    # Allows the quit button to shut down the GUI
+    def close_finished(self):
+        quit()
 
 # main routine
 if __name__ == "__main__":
