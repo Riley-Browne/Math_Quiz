@@ -10,17 +10,20 @@ class finish_quiz:
         self.finish_frame.grid()
     
         # Label for user to see how many they got right and wrong
-        self.math_quiz_label = Label(self.finish_frame, text="You Got {} right and {} wrong",
-                                    font="Arial 10 bold")
+        self.math_quiz_label = Label(self.finish_frame, text="Congratulations for completing the quiz!", font="Arial 10 bold")
         self.math_quiz_label.grid(row=0)
+
+        self.sub_quiz_label = Label(self.finish_frame, text="You can now export your results or quit",
+                                    font="Arial 8 italic")
+        self.sub_quiz_label.grid(row=1)
 
         self.save_button = Button(self.finish_frame, text="Save",
                              font="Arial 10 bold", bg="#FF9933")
-        self.save_button.grid(row=3, column=0, padx=65, pady=10)
+        self.save_button.grid(row=2, column=0, padx=65, pady=10)
 
         self.quit_button = Button(self.finish_frame, text="Quit",
                              font="Arial 10 bold", bg="#FF9933", command=partial(self.close_finished))
-        self.quit_button.grid(row=4, column=0, padx=65, pady=10)
+        self.quit_button.grid(row=3, column=0, padx=65, pady=10)
     
     # Allows the quit button to shut down the GUI
     def close_finished(self):
