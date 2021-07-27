@@ -14,11 +14,11 @@ class finish_quiz:
         self.math_quiz_label.grid(row=0)
 
         self.save_button = Button(self.finish_frame, text="Save",
-                             font="Arial 10 bold", bg="#FF9933", command=
+                             font="Arial 10 bold", bg="#FF9933")
         self.save_button.grid(row=3, column=0, padx=65, pady=10)
 
         self.quit_button = Button(self.finish_frame, text="Quit",
-                             font="Arial 10 bold", bg="#FF9933", command=partial(self.close_finished))
+                    font="Arial 10 bold", bg="#FF9933", command=partial(self.close_finished))
         self.quit_button.grid(row=4, column=0, padx=65, pady=10)
     
     def to_quiz (self, operation, minimum_value , maximum_value):
