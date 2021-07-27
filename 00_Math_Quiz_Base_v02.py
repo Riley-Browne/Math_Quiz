@@ -236,7 +236,7 @@ class Quiz:
                 num_3 = num_2 * num_1
 
             question = "{} {} {}".format(num_2, operation, num_1)
-            # self.question_generator.set(question)
+            self.question_asked.set(question)
 
 
             self.question_label.config(text=question)
@@ -285,11 +285,13 @@ class Quiz:
                 result = "incorrect"
 
             # add question and answer to list...
-            question_for_history = self.question_generator.get()
+            question_for_history = self.question_asked.get()
 
-            question_answer = "{} , {}, {}".format(question_for_history, user_answer, result)
+            question_answer = "{} = {} | {}".format(question_for_history, user_answer, result)
+            print("we asked", question_answer)
+            print()
 
-            self.question_history_list.append(question_for_history)
+            self.question_history_list.append(question_answer)
             print(self.question_history_list)
 
         except ValueError:
