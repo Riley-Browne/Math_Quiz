@@ -344,24 +344,28 @@ class Export:
         self.export_frame = Frame(self.export_box, padx=10, pady=10)
         self.export_frame.grid()
 
-         # Label 
+         # entry Label 
         self.entry_label = Label(self.export_frame, text="File Name:",
                                 font="Arial 10 bold")
-        self.entry_label.grid(row=0)
+        self.entry_label.grid(row=1)
+
+        self.error_label = Label(self.export_frame, text="",
+                                font="Arial 8 italic")
+        self.error_label.grid(row=2)
 
         # Entry Text Box for user to enter file name
         self.file_entry = Entry(self.export_frame, font="Arial 10 italic")   
-        self.file_entry.grid(row=1, column=0, pady=10)
+        self.file_entry.grid(row=3, column=0, pady=10)
 
         # Cancel Button
         self.cancel_button = Button(self.export_frame, text="Cancel", command=self.close_export,
                             font="Arial 10 bold", bg="#FF9933")
-        self.cancel_button.grid(row=2, column=0, padx=65, pady=10, sticky="ew")
+        self.cancel_button.grid(row=4, column=0, padx=65, pady=10, sticky="ew")
 
         # Save Button
         self.save_button_button = Button(self.export_frame, text="Save",
                              font="Arial 10 bold", bg="#FF9933", command=lambda: self.save_history(question_history_list))
-        self.save_button_button.grid(row=3, column=0, padx=65, pady=10, sticky="ew")
+        self.save_button_button.grid(row=5, column=0, padx=65, pady=10, sticky="ew")
 
     def save_history(self, question_history_list):
 
@@ -388,7 +392,7 @@ class Export:
 
         if has_errors == "yes":
             # Display error message
-            self.save_error_label.config(text="Invalid filename - {}".format(problem))
+            self.error_label.config(text="Invalid filename - {}".format(problem))
             # Change entry box background to pink
             self.file_entry.config(bg="#ffafaf")
             print()
@@ -407,9 +411,6 @@ class Export:
             for round in question_history_list:
                 f.write(str(round) + "\n")
 
-            # Add new line at the end of each item
-            for item in question_history_list:
-                f.write(item + "\n")
             # Closes save window when save is successful
             self.close_export()
 
