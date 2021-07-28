@@ -200,7 +200,7 @@ class Quiz:
         if how_many == 11:
             print("It is working, quiz over")
             self.next_button.config(state=DISABLED)
-            finish_quiz(self.question_results)
+            finish_quiz(self.question_history_list)
             
 
             # configure stuff etc, think mystery box when you ran out of money
@@ -302,7 +302,7 @@ class Quiz:
         quit()
 
 class finish_quiz():
-    def __init__(self, question_results):
+    def __init__(self, question_history_list):
 
 
         self.finish_box = Toplevel()
@@ -319,7 +319,7 @@ class finish_quiz():
         self.sub_quiz_label.grid(row=1)
 
         self.save_button = Button(self.finish_frame, text="Save",
-                             font="Arial 10 bold", bg="#FF9933")
+                             font="Arial 10 bold", bg="#FF9933", command=lambda: self.to_export(question_history_list))
         self.save_button.grid(row=2, column=0, padx=65, pady=10)
 
         self.quit_button = Button(self.finish_frame, text="Quit",
@@ -328,6 +328,89 @@ class finish_quiz():
     
     # Allows the quit button to shut down the GUI
     def close_finished(self):
+        quit()
+
+    def to_export(self, question_history_list):
+        # Get history list 
+        Export(question_history_list)
+
+
+class Export:
+    def __init__(self, question_history_list):
+        
+        self.export_box = Toplevel()
+        
+        # GUI Frame
+        self.export_frame = Frame(self.export_box, padx=10, pady=10)
+        self.export_frame.grid()
+
+         # Label 
+        self.entry_label = Label(self.export_frame, text="File Name:",
+                                font="Arial 10 bold")
+        self.entry_label.grid(row=0)
+
+        # Entry Text Box for user to enter file name
+        self.file_entry = Entry(self.export_frame, font="Arial 10 italic")   
+        self.file_entry.grid(row=1, column=0, pady=10)
+
+        # Cancel Button
+        self.cancel_button = Button(self.export_frame, text="Cancel", command=self.close_export,
+                            font="Arial 10 bold", bg="#FF9933")
+        self.cancel_button.grid(row=2, column=0, padx=65, pady=10, sticky="ew")
+
+        # Save Button
+        self.save_button_button = Button(self.export_frame, text="Save",
+                             font="Arial 10 bold", bg="#FF9933", command=lambda: self.save_history(question_history_list))
+        self.save_button_button.grid(row=3, column=0, padx=65, pady=10, sticky="ew")
+
+    def save_history(self, question_history_list):
+
+        # Regular expression to check filename is valid.
+        valid_char = "[A-Za-z0-9_]"
+        has_errors = "no"
+
+        filename = self.file_entry.get()
+        print(filename)
+
+        for letter in filename:
+            if re.match(valid_char, letter):
+                continue
+            elif letter == " ":
+                problem = "(No spaces allowed)"
+            else:
+                problem = ("(No {}'s allowed".format(letter))
+            has_errors = "yes"
+            break
+
+        if filename == "":
+            problem = "Can't be blank"
+            has_errors = 'yes'
+
+        if has_errors == "yes":
+            # Display error message
+            self.save_error_label.config(text="Invalid filename - {}".format(problem))
+            # Change entry box background to pink
+            self.file_entry.config(bg="#ffafaf")
+            print()
+        else:
+            # If there are no errors, generate text file and then close dialogue
+            # add .txt suffix!
+            filename = filename + ".txt"
+
+            # Create file to hold data
+            f = open(filename, "w+")
+
+            # Heading for stats
+            f.write("Questions Answers\n\n")
+
+            # Game stats
+            for round in question_history_list:
+                f.write(str(round) + "\n")
+                
+            # Closes save window when save is successful
+            self.close_export()
+
+    def close_export(self):
         quit()
 
 # main routine
