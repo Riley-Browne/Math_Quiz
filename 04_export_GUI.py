@@ -25,10 +25,10 @@ class Export:
 
         # Save Button
         self.save_button_button = Button(self.export_frame, text="Save",
-                             font="Arial 10 bold", bg="#FF9933", command=partial(lambda: self.save_history(answered_questions)))
+                             font="Arial 10 bold", bg="#FF9933", command=lambda: self.save_history(question_history_list))
         self.save_button_button.grid(row=3, column=0, padx=65, pady=10, sticky="ew")
 
-    def save_history(self):
+    def save_history(self, question_history_list):
 
         # Regular expression to check filename is valid.
         valid_char = "[A-Za-z0-9_]"
@@ -69,7 +69,7 @@ class Export:
             f.write("Game Statistics\n\n")
 
             # Game stats
-            for round in game_stats:
+            for round in question_history_list:
                 f.write(str(round) + "\n")
 
             # Heading for rounds
