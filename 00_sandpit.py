@@ -125,8 +125,6 @@ class Quiz:
         
         self.operator = StringVar()
         self.operator.set(operation)
-
-        # operation = "+", "-", "*", "/"
         
         #  Number of quesitons in the quiz
         num_questions = 10
