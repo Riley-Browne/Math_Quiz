@@ -58,18 +58,14 @@ class Start:
         self.multiplication_button = Button(self.start_frame, text="Multiplication",
                                         font=button_font, bg="#FF9933",command=lambda: self.num_checker("*"))
         self.multiplication_button.grid(row=6, column=0, padx=65, pady=5, sticky="ew")
-        # Division (row 7)
-        self.division_button = Button(self.start_frame, text="Division",
-                                        font=button_font, bg="#FF9933", command=lambda: self.num_checker("/"))
-        self.division_button.grid(row=7, column=0, padx=65, pady=5, sticky="ew")
         # Help Button (row 8)
         self.help_button = Button(self.start_frame, text="Help",
                                         font=button_font, bg="#FF9933")
-        self.help_button.grid(row=8, column=0, padx=65, pady=5, sticky="w")
+        self.help_button.grid(row=7, column=0, padx=65, pady=5, sticky="w")
         # Quit Button (row 8)
         self.quit_button = Button(self.start_frame, text="Quit",
                                         font=button_font, bg="#FF9933", command=partial(self.close_start))
-        self.quit_button.grid(row=8, column=0, padx=65, pady=5, sticky="e")
+        self.quit_button.grid(row=7, column=0, padx=65, pady=5, sticky="e")
 
     # checks entry boxes to see whether values are valid or not
     def num_checker (self, operation):
@@ -125,8 +121,6 @@ class Quiz:
         
         self.operator = StringVar()
         self.operator.set(operation)
-
-        # operation = "+", "-", "*", "/"
         
         #  Number of quesitons in the quiz
         num_questions = 10
@@ -228,9 +222,6 @@ class Quiz:
         
             elif operation == "-":
                 num_3 = num_2 - num_1
-
-            elif operation == "/":
-                num_3 = num_2 / num_1
             
             if operation == "*":
                 num_3 = num_2 * num_1
