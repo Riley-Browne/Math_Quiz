@@ -200,7 +200,7 @@ class Quiz:
         if how_many == 11:
             print("It is working, quiz over")
             self.next_button.config(state=DISABLED)
-            finish_quiz(self.question_results)
+            finish_quiz(self.question_history_list)
             
 
             # configure stuff etc, think mystery box when you ran out of money
@@ -302,7 +302,7 @@ class Quiz:
         quit()
 
 class finish_quiz():
-    def __init__(self, question_results):
+    def __init__(self, question_history_list):
 
 
         self.finish_box = Toplevel()
@@ -319,7 +319,7 @@ class finish_quiz():
         self.sub_quiz_label.grid(row=1)
 
         self.save_button = Button(self.finish_frame, text="Save",
-                             font="Arial 10 bold", bg="#FF9933")
+                             font="Arial 10 bold", bg="#FF9933", command=lambda: self.to_export(question_history_list))
         self.save_button.grid(row=2, column=0, padx=65, pady=10)
 
         self.quit_button = Button(self.finish_frame, text="Quit",
@@ -330,11 +330,18 @@ class finish_quiz():
     def close_finished(self):
         quit()
 
+    def to_export(self, question_history_list):
+        # Get history list 
+        Export(question_history_list)
+
+
 class Export:
-    def __init__(self):
+    def __init__(self, question_history_list):
+        
+        self.export_box = Toplevel()
         
         # GUI Frame
-        self.export_frame = Frame(padx=10, pady=10)
+        self.export_frame = Frame(self.export_box, padx=10, pady=10)
         self.export_frame.grid()
 
          # Label 
@@ -362,7 +369,7 @@ class Export:
         valid_char = "[A-Za-z0-9_]"
         has_errors = "no"
 
-        filename = self.filename_entry.get()
+        filename = self.file_entry.get()
         print(filename)
 
         for letter in filename:
@@ -383,7 +390,7 @@ class Export:
             # Display error message
             self.save_error_label.config(text="Invalid filename - {}".format(problem))
             # Change entry box background to pink
-            self.filename_entry.config(bg="#ffafaf")
+            self.file_entry.config(bg="#ffafaf")
             print()
         else:
             # If there are no errors, generate text file and then close dialogue
@@ -394,23 +401,21 @@ class Export:
             f = open(filename, "w+")
 
             # Heading for stats
-            f.write("Game Statistics\n\n")
+            f.write("Questions Answers\n\n")
 
             # Game stats
-            for round in game_stats:
+            for round in question_history_list:
                 f.write(str(round) + "\n")
 
-            # Heading for rounds
-            f.write("\nRound Details\n\n")
-
             # Add new line at the end of each item
-            for item in game_history:
+            for item in question_history_list:
                 f.write(item + "\n")
             # Closes save window when save is successful
-            self.close_export(partner)
+            self.close_export()
 
     def close_export(self):
-        Export.destory()
+        quit()
+
 # main routine
 if __name__ == "__main__":
     root = Tk()
